@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="login-form">
+      <div>
+        <img class="form-logo" src="../../../assets/form-logo.png" />
+        <span class="Welcome-text">Welcome to Digitalflake Admin</span>
+      </div>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <fieldset>
+          <legend>Email Id</legend>
+          <input type="text" formControlName="email" />
+        </fieldset>
+  
+        <fieldset>
+          <legend>Password</legend>
+          <input type="text" formControlName="password" />
+        </fieldset>
+  
+        <!-- <span  (click)="openForgotPasswordDialog()">Frogot password?</span> -->
+  
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+  
