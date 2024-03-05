@@ -17,7 +17,6 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'category', component: CategoryComponent },
       { path: 'products', component: ProductsComponent },
-      { path: '**', redirectTo: 'dashboard' }
 
     ],
   },

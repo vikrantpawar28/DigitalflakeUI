@@ -13,7 +13,8 @@ export class DeldialogComponent {
   onDelete(){
     this._categoryService.deleteEntry(this.data.id).subscribe({
       next:(response)=>{
-        console.log(response)
+        console.log(response);
+        
       },
       error:(error)=>{
         console.log(error)

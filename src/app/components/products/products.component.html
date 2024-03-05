@@ -1,24 +1,20 @@
 <div class="container">
-  <div class="" *ngIf="!openaddform">
+  <div class=""  *ngIf="!(openaddform || openEditform)">
     <div class="table-header">
       <div>
         <img src="../../../assets/products1.png" alt="" />
         <span> products </span>
       </div>
       <div class="search-bar">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example search icon"
-          fontIcon="search"
-        ></mat-icon>
-        <input type="search" />
+        <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+        <input type="search"  [(ngModel)]="searchTerm" (input)="search()"  />
       </div>
       <div>
         <button (click)="addnew()">Add New</button>
       </div>
     </div>
 
-    <table class="table" >
+    <table class="table">
       <thead>
         <tr>
           <td>id</td>
@@ -32,143 +28,67 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>123</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Lorem Ipsum is simply dummy text</td>
-          <td>Active</td>
+        <ng-container *ngIf="searchTerm === ''; else searchResults">
+        <tr *ngFor="let prod of prodData; let i = index">
+          <td>{{i}}</td>
+          <td>{{prod.productName}}</td>
+          <td>{{prod.packSize}}</td>
+          <td>{{prod.categoryName}}</td>
+          <td>{{prod.mrp}}</td>
+          <td><img [src]="prod.productImage" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
+          <td>{{prod.status}}</td>
           <td class="table-action-btn">
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example edit icon"
-                fontIcon="edit"
-              ></mat-icon>
+            <button (click)="toggleEdit(prod)">
+              <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>
             </button>
-            <button (click)="deleteDialog()">
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example delete icon"
-                fontIcon="delete"
-              ></mat-icon>
+            <button (click)="deleteDialog(prod._id)">
+              <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
             </button>
           </td>
         </tr>
+      </ng-container>
+      <ng-template #searchResults>
+      <tr *ngFor="let prod of filteredCategories; let i = index">
+        <td>{{i}}</td>
+        <td>{{prod.productName}}</td>
+        <td>{{prod.packSize}}</td>
+        <td>{{prod.categoryName}}</td>
+        <td>{{prod.mrp}}</td>
+        <td><img [src]="prod.productImage" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
+        <td>{{prod.status}}</td>
+        <td class="table-action-btn">
+          <button (click)="toggleEdit(prod)">
+            <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+          </button>
+          <button (click)="deleteDialog(prod._id)">
+            <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+          </button>
+        </td>
+      </tr> </ng-template>
 
-        <!-- <tr>
-          <td>123</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Lorem Ipsum is simply dummy text</td>
-          <td>Active</td>
-          <td class="table-action-btn">
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example edit icon"
-                fontIcon="edit"
-              ></mat-icon>
-            </button>
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example delete icon"
-                fontIcon="delete"
-              ></mat-icon>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td>123</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Lorem Ipsum is simply dummy text</td>
-          <td>Active</td>
-          <td class="table-action-btn">
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example edit icon"
-                fontIcon="edit"
-              ></mat-icon>
-            </button>
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example delete icon"
-                fontIcon="delete"
-              ></mat-icon>
-            </button>
-          </td>
-        </tr>
-
-        <tr>
-          <td>123</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Vikrant Bhadu</td>
-          <td>Lorem Ipsum is simply dummy text</td>
-          <td>Active</td>
-          <td class="table-action-btn">
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example edit icon"
-                fontIcon="edit"
-              ></mat-icon>
-            </button>
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example delete icon"
-                fontIcon="delete"
-              ></mat-icon>
-            </button>
-          </td>
-        </tr> -->
       </tbody>
     </table>
+
+
+    
   </div>
 
   <div *ngIf="openaddform">
     <div class="form-header">
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        (click)="close()"
-      >
-        <path
-          d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z"
-          fill="#807964"
-        />
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="close()">
+        <path d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z" fill="#807964" />
       </svg>
       <span>Add category</span>
     </div>
 
     <div class="category-form" *ngIf="openaddform">
-      <form>
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
         <div>
           <fieldset>
             <legend>Category</legend>
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-select>
-                <mat-option
-                  *ngFor="let category of categories"
-                  [value]="category.name"
-                  >{{ category.name }}</mat-option
-                >
+              <mat-select formControlName="categoryName">
+                <mat-option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</mat-option>
               </mat-select>
             </mat-form-field>
           </fieldset>
@@ -191,19 +111,80 @@
           <fieldset>
             <legend>Product image</legend>
             <div id="uploadcontainer">
-              <input type="file" name="" id="" />
-              <!-- <img
-                class="uploadicon"
-                src="../../../assets/fileupload.png"
-                alt=""
-              /> -->
+              <input (change)="selectImage($event)" type="file" accept="image/*" name="" id="" />
+              <img class="uploadicon" src="../../../assets/fileupload.png" alt="" />
             </div>
           </fieldset>
 
           <fieldset>
             <legend>Status</legend>
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-select>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let element of status" [value]="element.value">{{element.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </fieldset>
+        </div>
+
+        <div class="form-btn">
+          <button>Cancel</button>
+          <button>Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+  <div *ngIf="openEditform">
+    <div class="form-header">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="close()">
+        <path d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z" fill="#807964" />
+      </svg>
+      <span>Edit Product</span>
+    </div>
+
+    <div class="category-form" *ngIf="openEditform">
+      <form [formGroup]="productForm" (ngSubmit)="editsubmin()">
+        <div>
+          <fieldset>
+            <legend>Category</legend>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-select formControlName="categoryName">
+                <mat-option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </fieldset>
+          <fieldset>
+            <legend>Product Name</legend>
+            <input type="text" formControlName="productName" />
+          </fieldset>
+
+          <fieldset>
+            <legend>Pack Size</legend>
+            <input type="text" formControlName="packSize" />
+          </fieldset>
+        </div>
+        <div>
+          <fieldset>
+            <legend>MRP</legend>
+            <input type="number" formControlName="mrp" />
+          </fieldset>
+
+          <fieldset>
+            <legend>Product image</legend>
+            <div id="uploadcontainer">
+              <input (change)="selectImage($event)" type="file" accept="image/*" name="" id="" />
+              <img class="uploadicon" src="../../../assets/fileupload.png" alt="" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Status</legend>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-select formControlName="status">
                 <mat-option *ngFor="let element of status" [value]="element.value">{{element.name}}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -219,84 +200,3 @@
   </div>
 </div>
 
-<!-- <div class="container" *ngIf="!openaddform">
-    <div class="first_row">
-      <div class="category">
-        <img src="../../../assets/products1.png" alt="" />
-        <span> products </span>
-      </div>
-      <div class="searchfield_container">
-        <mat-form-field class="search_field" appearance="outline">
-          <mat-icon matSuffix>search</mat-icon>
-          <input
-            matInput
-            (keyup)="applyFilter($event)"
-            placeholder="search scp"
-          />
-        </mat-form-field>
-      </div>
-      <span (click)="addnew()"><button>Add New</button></span>
-    </div>
-  </div>
-  <div class="addnew_container" *ngIf="openaddform">
-    <div>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"  (click)="close()">
-          <path d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z" fill="#807964"/>
-          </svg>
-          
-      <span>Add Products</span>
-  </div>
-  <div>
-      <form >
-        <div>
-            <fieldset>
-                <legend>Email Id</legend>
-                <input type="text" name="" id="" />
-              </fieldset>
-        
-              <fieldset>
-                <legend>Password</legend>
-                <input type="text" name="" id="" />
-              </fieldset>
-    
-              <fieldset>
-                <legend>Dropdown Input</legend>
-                
-                <mat-form-field appearance="outline">
-                
-                  <mat-select>
-                    <mat-option value="option1">Active</mat-option>
-                    <mat-option value="option2">InActive</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </fieldset>
-        </div>
-        <div>
-            <fieldset>
-                <legend>Email Id</legend>
-                <input type="text" name="" id="" />
-              </fieldset>
-        
-              <fieldset>
-                <legend>Password</legend>
-                <input type="text" name="" id="" />
-              </fieldset>
-    
-              <fieldset>
-                <legend>Dropdown Input</legend>
-                
-                <mat-form-field appearance="outline">
-                
-                  <mat-select>
-                    <mat-option value="option1">Option 1</mat-option>
-                    <mat-option value="option2">Option 2</mat-option>
-                    <mat-option value="option3">Option 3</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </fieldset>
-        </div>
-          
-      </form>
-  </div>
-  </div>
-   -->

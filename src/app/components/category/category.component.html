@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="" *ngIf="!openaddform">
+  <div class="" *ngIf="!(openaddform || openeditform)">
     <div class="table-header">
       <div>
         <img src="../../../assets/category1.png" alt="" />
@@ -11,7 +11,7 @@
           aria-label="Example search icon"
           fontIcon="search"
         ></mat-icon>
-        <input type="search" />
+        <input type="search" [(ngModel)]="searchTerm" (input)="search()" />
       </div>
       <div>
         <button (click)="addnew()">Add New</button>
@@ -29,30 +29,38 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let category of categories;let i = index">
-          <td>{{i+1}}</td>
-          <td>{{category.name}}</td>
-          <td>{{category.description}}</td>
-          <td>{{category.status}}</td>
-          <td class="table-action-btn">
-            <button>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example edit icon"
-                fontIcon="edit"
-              ></mat-icon>
-            </button>
-            <button (click)="deleteDialog(category._id)">
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Example delete icon"
-                fontIcon="delete"
-              ></mat-icon>
-            </button>
-          </td>
-        </tr>
-
-        
+        <ng-container *ngIf="searchTerm === ''; else searchResults">
+          <tr *ngFor="let category of categories; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.status }}</td>
+            <td class="table-action-btn">
+              <button (click)="editToggel(category)">
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+              </button>
+              <button (click)="deleteDialog(category._id)">
+                <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #searchResults>
+          <tr *ngFor="let category of filteredCategories; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.status }}</td>
+            <td class="table-action-btn">
+              <button (click)="editToggel(category)"> 
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+              </button>
+              <button (click)="deleteDialog(category._id)">
+                <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
       </tbody>
     </table>
   </div>
@@ -103,4 +111,58 @@
       </form>
     </div>
   </div>
+
+  <div *ngIf="openeditform">
+    <div class="form-header">
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        (click)="close()"
+      >
+        <path
+          d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z"
+          fill="#807964"
+        />
+      </svg>
+      <span>Edit category</span>
+    </div>
+  
+    <div class="category-form" *ngIf="openeditform">
+      <form [formGroup]="categoryForm" (ngSubmit)="editCategory()">
+        <fieldset>
+          <legend>Category Name</legend>
+          <input type="text" formControlName="name" />
+        </fieldset>
+  
+        <fieldset>
+          <legend>Description</legend>
+          <input type="text" formControlName="description" />
+        </fieldset>
+  
+        <fieldset>
+          <legend>Status</legend>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let element of status" [value]="element.value">{{element.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </fieldset>
+  
+        <div class="form-btn">
+          <button type="button">Cancel</button>
+          <button>Save</button>
+        </div>
+      </form>
+    </div>
+
+</div>
+
+
+
+
+
+
 </div>

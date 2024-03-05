@@ -4,6 +4,9 @@ mat-toolbar {
 mat-drawer-content {
   padding: 10px;
 }
+.selected {
+  background-color:#F4EDAF; /* Set your desired background color for the selected item */
+}
 
 mat-toolbar-row {
   width: 100%;

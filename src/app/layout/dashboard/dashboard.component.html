@@ -37,7 +37,7 @@
 </mat-toolbar>
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <mat-nav-list routerLink="home">
+    <mat-nav-list [ngClass]="{ 'selected': 'home' === selectedNavItem }" (click)="selectNavItem('home')">
       <div>
         <img src="../../../assets/home.png" alt="" />
         <mat-list mat-list-item>Home</mat-list>
@@ -55,7 +55,8 @@
         />
       </svg>
     </mat-nav-list>
-    <mat-nav-list routerLink="category">
+    
+    <mat-nav-list routerLink="category" [ngClass]="{ 'selected': 'category' === selectedNavItem }" (click)="selectNavItem('category')">
       <div>
         <img src="../../../assets/category.png" alt="" />
         <mat-list mat-list-item>category</mat-list>
@@ -73,7 +74,7 @@
         />
       </svg>
     </mat-nav-list>
-    <mat-nav-list routerLink="products">
+    <mat-nav-list routerLink="products" [ngClass]="{ 'selected': 'Products' === selectedNavItem }" (click)="selectNavItem('Products')">
       <div>
         <img src="../../../assets/products.png" alt="" />
         <mat-list mat-list-item>Products</mat-list>

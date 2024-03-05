@@ -10,6 +10,11 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 export class DashboardComponent {
   opened = false;
   contentMargin = 240;
+  navItems: string[] = ['Home', 'category', 'Products'];
+  selectedNavItem: string = ''; 
+  selectNavItem(item: string) {
+    this.selectedNavItem = item;
+  }
   toggleCollapse(): void {
     this.opened = !this.opened;
     if (!this.opened) {

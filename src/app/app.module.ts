@@ -24,6 +24,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './services/token.interceptor';
 import { DeldialogComponent } from './components/deldialog/deldialog.component';
 import { HomeComponent } from './components/home/home.component';
+import { Deldialog1Component } from './components/deldialog1/deldialog1.component';
+// import { ComponentsComponent } from './src/app/components/components.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +38,8 @@ import { HomeComponent } from './components/home/home.component';
     ConfirmationComponent,
     DeldialogComponent,
     HomeComponent,
+    Deldialog1Component,
+    // ComponentsComponent,
   ],
   imports: [
     BrowserModule,
